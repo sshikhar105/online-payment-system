@@ -1,0 +1,46 @@
+
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+
+    <div class="col-lg-12">
+       {% if message %}
+        <div class="alert alert-{{message.type}} my-4">{{message.message}}</div>
+        {% endif %}
+        <h3 class="h3">Money Requests</h3>
+        <table class="table table-hover table-bordered" id="transaction-table">
+            <thead>
+            <tr>
+                <th scope="col">Sender</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Time</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="text-center">Actions</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% if not requests %}
+            <tr >
+                <td colspan="12" class="bg-light text-center"> No Pending Requests</td>
+            </tr>
+            {% endif %}
+            {% for t in requests %}
+            <tr class="{% if t.type == 'DEBIT' %}table-warning{% endif %}">
+                <td>{{t.sender.full_name}}</td>
+                <td>{{t.amount}} {{t.currency}}</td>
+                <td>{{t.datetime}}</td>
+                <td>{{t.status}}</td>
+                <td class="text-center">
+                    <a class="btn btn-sm btn-primary" href="{% url 'approve-request' %}?rid={{t.id}}">Approve</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'deny-request' %}?rid={{t.id}}">Deny</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a class="btn btn-light my-4" href="{% url 'dashboard' %}">Go Back</a>
+    </div>
+</div>
+{% endblock content %}

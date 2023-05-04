@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block layout %}
+
+<div class="row justify-content-center">
+
+<div class="col-lg-3 align-items-center justify-content-center h-100">
+  <div class="card m-4">
+    <div class="text-center m-4">
+      <h3 class="h3">Login</h3>
+      <form method="post" class="my-4">
+        {% csrf_token %}
+        {% for form_field in form %}
+        {{ form_field }}
+        {% endfor %}
+        <button class="btn btn-primary w-100 mt-2" type="submit">
+          Login
+        </button>
+        <small class="text-muted my-4">OR</small>
+        <a class="btn btn-light w-100 mt-2" type="submit" href="{% url 'register' %}">
+          Create a new account
+        </a>
+      </form>
+      <div class="text-left">
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+          {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock layout %}

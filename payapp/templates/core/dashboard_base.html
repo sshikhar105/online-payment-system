@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block layout %}
+{% include 'navbar.html' %}
+<main class="container">
+  {% block content %}
+  {% endblock content %}
+</main>
+
+{% endblock layout %}

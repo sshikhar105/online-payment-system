@@ -1,0 +1,43 @@
+
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row justify-content-center">
+  {% if message %}
+  <div class="alert alert-{{message.type}} my-4">{{message.message}}</div>
+  {% endif %}
+  <div class="col-lg-4 align-items-center justify-content-center h-100">
+    <div class="card m-4">
+
+      <div class="text-center m-4">
+        <h3 class="h3">Add new Admin</h3>
+        <form method="post" class="my-4">
+          {% csrf_token %}
+          {% for form_field in form %}
+          {{ form_field }}
+          {% endfor %}
+          <button class="btn btn-primary w-100 mt-2" type="submit">
+            Create Account
+          </button>
+
+          <a class="btn btn-light my-4 w-100" href="{% url 'dashboard' %}">Go Back</a>
+        </form>
+        <div class="text-left">
+          {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% if success %}
+      <div class="alert alert-success">
+        Message request sent successfully
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,48 @@
+
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+{% block content %}
+<div class="row justify-content-center">
+    <a class="btn btn-primary col-lg-3 mx-2 my-4 " href="{% url 'send-money' %}">Send Money</a>
+    <a class="btn btn-primary col-lg-3 mx-2 my-4" href="{% url 'request-money' %}">Request Money</a>
+    <a class="btn btn-primary col-lg-3 mx-2 my-4" href="{% url 'requests' %}">Requests Received</a>
+    <a class="btn btn-primary col-lg-3 mx-2 my-4" href="{% url 'notifications' %}">Notifications</a>
+
+    <div class="col-lg-12">
+        <h3 class="h3">Transactions</h3>
+        <table class="table table-hover table-bordered" id="transaction-table">
+            <thead>
+            <tr>
+                <th scope="col">Sender</th>
+                <th scope="col">Recipient</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Time</th>
+                <th scope="col">Balance</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% if not transactions %}
+            <tr >
+            <td colspan="12" class="bg-light text-center"> No Transactions</td>
+            </tr>
+            {% endif %}
+            {% for t in transactions %}
+            <tr >
+
+                <td>{{t.sender.full_name}}</td>
+                <td>{{t.recipient.full_name}}</td>
+                <td>{{t.amount}} {{t.currency}}</td>
+                <td>{{t.datetime}}</td>
+                {% if request.user.id == t.sender.id %}
+                <td>{{t.sender_balance}} {{request.user.base_currency}} </td>
+                {% elif request.user.id == t.recipient.id %}
+                <td>{{t.recipient_balance}} {{request.user.base_currency}} </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

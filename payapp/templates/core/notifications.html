@@ -1,0 +1,40 @@
+
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+
+  <div class="col-lg-12">
+    {% if message %}
+    <div class="alert alert-{{message.type}} my-4">{{message.message}}</div>
+    {% endif %}
+    <h3 class="h3 mt-4">Notifications</h3>
+    <table class="table table-hover table-bordered" id="transaction-table">
+      <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Message</th>
+        <th scope="col">Time</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      {% if not notifications %}
+      <tr >
+        <td colspan="12" class="bg-light text-center"> No Unseen notifications</td>
+      </tr>
+      {% endif %}
+      {% for t in notifications %}
+      <tr>
+        <td>{{t.title}}</td>
+        <td>{{t.message}}</td>
+        <td>{{t.datetime}}</td>
+
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <a class="btn btn-light my-4" href="{% url 'dashboard' %}">Go Back</a>
+  </div>
+</div>
+{% endblock content %}
